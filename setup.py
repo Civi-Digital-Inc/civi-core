@@ -10,12 +10,12 @@ setup(
     packages=['civic_core'],
     package_data={'civic_core': ['py.typed']},
     install_requires=[
-        'fastapi==0.88.0',
+        'fastapi==0.91.0',
         'psycopg2==2.9.5',
-        'pydantic==1.10.2',
-        'python-dotenv==0.21.0',
+        'pydantic==1.10.4',
+        'python-dotenv==0.21.1',
         'python-jose==3.3.0',
-        'SQLAlchemy==1.4.45',
+        'SQLAlchemy==2.0.3',
     ],
     python_requires='>=3.6',
     classifiers=[
