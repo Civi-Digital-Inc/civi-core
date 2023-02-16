@@ -44,9 +44,9 @@ case ${1:-'usage'} in
     docs)
         echo "$WARN Generating Docs"
         pdoc civic_core -o docs \
-            --logo "" \
-            --logo-link "" \
-            --favicon ""
+            --logo "https://civic-api-core.gaytomycode.com/assets/logo.jpg" \
+            --logo-link "https://civic.gaytomycode.com" \
+            --favicon "https://civic.gaytomycode.com/favicon.ico"
         assert "Generated successfully" "Generation Failed" ;;
     test)
         echo $TESTING
