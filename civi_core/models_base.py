@@ -3,7 +3,7 @@
 Sqlachemy model base class.
 ## Usage
 ```python3
-from civic_core.models_base import Base
+from civi_core.models_base import Base
 
 class MyModel(Base):
     id = Column(Integer, primary_key=True, index=True)
@@ -14,7 +14,6 @@ class MyModel(Base):
 from typing import Any, Dict
 
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
-
 
 __class_registry: Dict = {}
 

@@ -36,29 +36,32 @@ assert() {
 case ${1:-'usage'} in
     dev)
         echo $RUNNING
-        exec pdoc -n civic_core \
+        exec pdoc -n civi_core \
             --logo "" \
             --logo-link "" \
             --favicon ""
         assert "Server ran successfully" "Server exited with an error" ;;
     docs)
         echo "$WARN Generating Docs"
-        pdoc civic_core -o docs \
-            --logo "https://civic-api-core.gaytomycode.com/assets/logo.jpg" \
-            --logo-link "https://civic.gaytomycode.com" \
-            --favicon "https://civic.gaytomycode.com/favicon.ico"
+        pdoc civi_core -o docs \
+            --logo "https://civi-api-core.gaytomycode.com/assets/logo.jpg" \
+            --logo-link "https://civi.gaytomycode.com" \
+            --favicon "https://civi.gaytomycode.com/favicon.ico"
         assert "Generated successfully" "Generation Failed" ;;
     test)
         echo $TESTING
         echo "$WARN Code Quality Check"
         echo "$WARN Linting source codebase"
-        oitnb civic_core -l 79
+        blue civi_core
         assert "Linted successfully" "Failed to lint"
+        echo "$WARN Sorting imports"
+        isort civi_core
+        assert "Sorted" "Failed to sort"
         echo "$WARN Running Flake8"
-        flake8 civic_core
+        flake8 civi_core
         assert "Clean code noice" "Go clean your code"
         echo "$WARN Running mypy"
-        mypy civic_core
+        mypy civi_core
         assert "Static!!" "Go fix ur code dude"
 
         ;;

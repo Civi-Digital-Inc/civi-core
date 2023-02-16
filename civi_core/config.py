@@ -3,14 +3,15 @@
 Pydantic settings instance
 ## Usage
 ```python3
-from civic_core.config import settings
+from civi_core.config import settings
 
 settings.MEDIA_ROOT
 ```
 """
 import os
-from pydantic import AnyHttpUrl, BaseSettings, validator, Field
 from typing import List, Union
+
+from pydantic import AnyHttpUrl, BaseSettings, Field, validator
 
 
 class Settings(BaseSettings):
@@ -24,7 +25,7 @@ class Settings(BaseSettings):
     SQLALCHEMY_DATABASE_URI: str = 'postgresql+psycopg2://user:pass@host:p/db'
     """Path to the database. Now is local but should be moved to AWS RDS"""
 
-    JWT_SECRET: str = ""
+    JWT_SECRET: str = ''
     """Used by the identity micro-service to create JWTs"""
     ALGORITHM: str = 'HS256'
     """Used by the identity micro-service to create JWTs"""

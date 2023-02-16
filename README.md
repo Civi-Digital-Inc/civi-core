@@ -1,27 +1,27 @@
 # Core Library
 ## docs
-[https://civic-api-core.gaytomycode.com](https://civic-api-core.gaytomycode.com)
+[https://civi-api-core.gaytomycode.com](https://civi-api-core.gaytomycode.com)
 
 ## Install
 ### Commandline
 ```bash
-$ pip install git+ssh://git@github.com/gaytomycode/civic-api-core
+$ pip install git+ssh://git@github.com/gaytomycode/civi-api-core
 ```
 ### requirements.txt
 ```txt
-civic-core @ git+ssh://git@github.com/gaytomycode/civic-api-core
+civi-core @ git+ssh://git@github.com/gaytomycode/civi-api-core
 ```
 
 ## Usage
 
 ```python3
-import civic_core
+import civi_core
 ```
 
 ## Scructure
-CIVIC Backend is a micro-service architecture containing:
+CIVI Backend is a micro-service architecture containing:
 * identity: Managing JWT tokens and sessions.
-* mayor:
+* table:
 * scrap:
 
 ## Modules
@@ -32,3 +32,4 @@ CIVIC Backend is a micro-service architecture containing:
 * helpers: Utility functions.
 * models_base: The base sqlachemy model class.
 * schemas_base: Pydantic base that supports property.
+* choices:

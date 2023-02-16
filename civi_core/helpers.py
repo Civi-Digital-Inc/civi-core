@@ -2,17 +2,17 @@
 ## Description
 Couple of helper functions.
 """
-from typing import Optional, Dict, Any
 import http.client
 import json
 import re
+from typing import Any, Dict, Optional
 
 
 def ord(n: int) -> str:
     """
     Prefix numbers with their order.
 
-    >>> from civic_core.helpers import ord
+    >>> from civi_core.helpers import ord
     >>> ord(13)
     '13th'
     >>> ord(22)
@@ -35,7 +35,7 @@ def validate_url(url: str) -> Optional[re.Match]:
     - the URL is delimited at the end by a space and can contain any other
         character
 
-    >>> from civic_core.helpers import validate_url
+    >>> from civi_core.helpers import validate_url
     >>> validate_url('https://www.youtube.com')
     True
     >>> validate_url('youtube')
@@ -49,7 +49,7 @@ def fix_url(valid_url: str) -> str:
     """
     Take a url and adds http if http or https are missing.
 
-    >>> from civic_core.helpers import fix_url
+    >>> from civi_core.helpers import fix_url
     >>> validate_url('www.youtube.com')
     'http://www.youtube.com'
     """

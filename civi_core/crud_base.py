@@ -3,7 +3,7 @@
 CRUD abstraction base class.
 ## Usage
 ```python3
-from civic_core.crud_base import CRUDBase
+from civi_core.crud_base import CRUDBase
 from my_models import MyModel
 from my_schemas import MyCreateSchema, MyUpdateSchema
 
@@ -14,17 +14,8 @@ my_crud: MyCRUD = MyCRUD(MyModel)
 my_obj: MyModel = my_crud.get(db=db_session, id=my_object_id)
 ```
 """
-from typing import (
-    Any,
-    Dict,
-    Generic,
-    List,
-    Optional,
-    Type,
-    TypeVar,
-    Union,
-    Sequence,
-)
+from typing import (Any, Dict, Generic, List, Optional, Sequence, Type,
+                    TypeVar, Union)
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel

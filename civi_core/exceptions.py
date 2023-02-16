@@ -3,7 +3,7 @@
 HTTP Exceptions.
 ## Usage
 ```python3
-from civic_core.exceptions import app_exceptions
+from civi_core.exceptions import app_exceptions
 
 for exc in app_exceptions:
     app.add_exception_handler(exc['err'], exc['defn'])

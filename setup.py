@@ -1,14 +1,14 @@
 from setuptools import setup
 
-from civic_core import __version__
+from civi_core import __version__
 
 setup(
-    name='civic-core',
+    name='civi-core',
     version=__version__,
     author='Muhamed Hassan',
-    description='CIVICCore is used by all other microservices.',
-    packages=['civic_core'],
-    package_data={'civic_core': ['py.typed']},
+    description='CIVICore is used by all other microservices.',
+    packages=['civi_core'],
+    package_data={'civi_core': ['py.typed']},
     install_requires=[
         'fastapi==0.91.0',
         'psycopg2==2.9.5',
