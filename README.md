@@ -1,15 +1,15 @@
 # Core Library
 ## docs
-[https://civi-api-core.gaytomycode.com](https://civi-api-core.gaytomycode.com)
+[https://civi-core.gaytomycode.com](https://civi-core.gaytomycode.com)
 
 ## Install
 ### Commandline
 ```bash
-$ pip install git+ssh://git@github.com/gaytomycode/civi-api-core
+$ pip install git+ssh://git@github.com/gaytomycode/civi-core
 ```
 ### requirements.txt
 ```txt
-civi-core @ git+ssh://git@github.com/gaytomycode/civi-api-core
+civi-core @ git+ssh://git@github.com/gaytomycode/civi-core
 ```
 
 ## Usage
