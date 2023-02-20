@@ -1,6 +1,4 @@
-#!/usr/bin/env zsh
-
-emulate -LR zsh
+#!/usr/bin/env sh
 
 OK='[\033[1;32mOK\033[0m]\t'
 WARN='[\033[1;33mWARN\033[0m]\t'
