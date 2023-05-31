@@ -56,7 +56,7 @@ def fix_url(valid_url: str) -> str:
     return 'http://' + valid_url.strip()
 
 
-# XXX(gaytomycode): A request handler that works, should improve it thou to our
+# FIXME(gaytomycode): A request handler that works, should improve it thou to our
 # needs
 GET: str = 'GET'
 POST: str = 'POST'
@@ -93,7 +93,7 @@ class Request:
         )
         resp = conn.getresponse()
         if resp.status // 100 != 2:
-            # XXX(gaytomycode): raising an error here is temporary
+            # FIXME(gaytomycode): raising an error here is temporary
             raise ValueError(f'{resp.status} {resp.reason} {resp.read()}')
         return {
             'status': resp.status,
