@@ -22,9 +22,24 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
+from google.cloud.sql.connector import Connector
+import os
+
 from .config import settings
 
-__engine = create_engine(settings.SQLALCHEMY_DATABASE_URI)
+connector = Connector()
+
+def getconn():
+    conn = connector.connect(
+        "charming-shield-389823:us-central1:civi",
+        "pg8000",
+        user="postgres",
+        password=os.getenv("PW"),
+        db=os.getenv("DB_NAME"),
+    )
+    return conn
+
+__engine = create_engine("postgresql+pg8000://", creator=getconn)
 __SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=__engine)
 
 
@@ -40,7 +55,7 @@ def get_db() -> Generator:
 
 
 __oauth2_scheme: OAuth2PasswordBearer = OAuth2PasswordBearer(
-    tokenUrl=f'{settings.API_V1_STR}/login'
+    tokenUrl=f"{settings.API_V1_STR}/login"
 )
 
 
@@ -56,8 +71,8 @@ class TokenData(BaseModel):
 
 __credentials_exception = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
-    detail='Could not validate credentials',
-    headers={'Authorizaiton': ''},
+    detail="Could not validate credentials",
+    headers={"Authorizaiton": ""},
 )
 
 
@@ -72,10 +87,10 @@ async def get_current_identity(
             token,
             settings.JWT_SECRET,
             algorithms=[settings.ALGORITHM],
-            options={'verify_aud': False},
+            options={"verify_aud": False},
         )
-        identity_id: int = payload.get('id', '')
-        email: str = payload.get('email', '')
+        identity_id: int = payload.get("id", "")
+        email: str = payload.get("email", "")
         if identity_id is None or email is None:
             raise __credentials_exception
         token_data = TokenData(id=identity_id, email=email, token=token)
