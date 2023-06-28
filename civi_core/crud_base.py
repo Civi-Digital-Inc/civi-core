@@ -14,8 +14,7 @@ my_crud: MyCRUD = MyCRUD(MyModel)
 my_obj: MyModel = my_crud.get(db=db_session, id=my_object_id)
 ```
 """
-from typing import (Any, Dict, Generic, List, Optional, Sequence, Type,
-                    TypeVar, Union)
+from typing import Any, Dict, Generic, List, Optional, Sequence, Type, TypeVar, Union
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
@@ -23,9 +22,9 @@ from sqlalchemy.orm import Session
 
 from .models_base import Base
 
-ModelType = TypeVar('ModelType', bound=Base)
-CreateSchemaType = TypeVar('CreateSchemaType', bound=BaseModel)
-UpdateSchemaType = TypeVar('UpdateSchemaType', bound=BaseModel)
+ModelType = TypeVar("ModelType", bound=Base)
+CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
+UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
@@ -41,6 +40,12 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         Returns the sqlalchemy object with passed id.
         """
         return db.query(self.model).filter(self.model.id == id).first()
+
+    def search_names(self, db: Session, query: Any) -> List[ModelType]:
+        """
+        Returns a list of sqlalchemy objects which match the query
+        """
+        return db.query(self.model).filter(self.model.name.ilike(f"%{query}%"))
 
     def get_multi(
         self, db: Session, *, skip: int = 0, limit: int = 100
