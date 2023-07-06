@@ -28,7 +28,7 @@ import os
 from .config import settings
 
 connector = Connector()
-production = False
+production = True
 
 def getconn():
     conn = connector.connect(
