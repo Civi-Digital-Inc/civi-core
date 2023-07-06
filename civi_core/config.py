@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     MEDIA_ROOT: str = os.path.join(os.getcwd(), 'media')
     """Path to file upload. Now is local but should be moved to AWS S3"""
 
-    SQLALCHEMY_DATABASE_URI: str = 'postgresql+psycopg2://user:pass@host:p/db'
+    SQLALCHEMY_DATABASE_URI: str = 'postgresql+psycopg2://host.docker.internal:5432/civi-contacts'
     """Path to the database. Now is local but should be moved to AWS RDS"""
 
     JWT_SECRET: str = ''
