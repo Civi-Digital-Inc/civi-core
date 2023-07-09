@@ -28,7 +28,6 @@ import os
 from .config import settings
 
 connector = Connector()
-production = False
 
 def getconn():
     conn = connector.connect(
@@ -40,9 +39,7 @@ def getconn():
     )
     return conn
     
-
-
-__engine = create_engine("postgresql+pg8000://", creator=getconn) if production else create_engine(settings.SQLALCHEMY_DATABASE_URI)
+__engine = create_engine("postgresql+pg8000://", creator=getconn)
 __SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=__engine)
 
 
