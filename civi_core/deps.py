@@ -12,36 +12,37 @@ def example(
     ...
 ```
 """
+import os
 from ast import literal_eval
 from typing import Generator, Optional
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from google.cloud.sql.connector import Connector
 from jose import JWTError, jwt
 from pydantic import BaseModel
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
-from google.cloud.sql.connector import Connector
-import os
-
 from .choices import IdentityRole
 from .config import settings
 
 connector = Connector()
 
+
 def getconn():
     conn = connector.connect(
-        "charming-shield-389823:us-central1:civi",
-        "pg8000",
-        user="postgres",
-        password=os.getenv("PW"),
-        db=os.getenv("DB_NAME"),
+        'charming-shield-389823:us-central1:civi',
+        'pg8000',
+        user='postgres',
+        password=os.getenv('PW'),
+        db=os.getenv('DB_NAME'),
     )
     return conn
 
-__engine = create_engine("postgresql+pg8000://", creator=getconn)
+
+__engine = create_engine('postgresql+pg8000://', creator=getconn)
 __SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=__engine)
 
 
@@ -57,7 +58,7 @@ def get_db() -> Generator:
 
 
 __oauth2_scheme: OAuth2PasswordBearer = OAuth2PasswordBearer(
-    tokenUrl=f"{settings.API_V1_STR}/login"
+    tokenUrl=f'{settings.API_V1_STR}/login'
 )
 
 
@@ -74,8 +75,8 @@ class TokenData(BaseModel):
 
 __credentials_exception = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
-    detail="Could not validate credentials",
-    headers={"Authorizaiton": ""},
+    detail='Could not validate credentials',
+    headers={'Authorizaiton': ''},
 )
 
 
@@ -90,7 +91,7 @@ async def get_current_identity(
             token,
             settings.JWT_SECRET,
             algorithms=[settings.ALGORITHM],
-            options={"verify_aud": False},
+            options={'verify_aud': False},
         )
         identity_id: int = payload.get('id', '')
         email: str = payload.get('email', '')
