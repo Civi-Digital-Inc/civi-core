@@ -25,36 +25,6 @@ def ord(n: int) -> str:
     )
 
 
-def validate_url(url: str) -> Optional[re.Match]:
-    """
-    Take a url and checks if it is valid
-
-    - starts with http or https
-    - contains at least one "." between the TLD and the domain name
-    - the domain name is composed of letters, numbers _ and -
-    - the URL is delimited at the end by a space and can contain any other
-        character
-
-    >>> from civi_core.helpers import validate_url
-    >>> validate_url('https://www.youtube.com')
-    True
-    >>> validate_url('youtube')
-    False
-    """
-    url_regex = '^https?://[\\w\\-]+(\\.[\\w\\-]+)+\\S*'
-    return re.match(url_regex, url)
-
-
-def fix_url(valid_url: str) -> str:
-    """
-    Take a url and adds http if http or https are missing.
-
-    >>> from civi_core.helpers import fix_url
-    >>> validate_url('www.youtube.com')
-    'http://www.youtube.com'
-    """
-    return 'http://' + valid_url.strip()
-
 
 # FIXME(gaytomycode): A request handler that works, should improve it thou to our
 # needs
@@ -65,6 +35,16 @@ STATUS_CODE: Dict[int, str] = {}
 
 
 class Request:
+    """
+    temporary to make api requset, it should tie into aws tools when deployed to production
+
+    >>> request = Request(url='https://example.com', path='/v1/reservation/upcoming/', method='GET', headers={}, json={})
+    >>> request.set_auth_header('Bearer ...')
+    >>> response = request.send()
+    >>> response.status
+    >>> response.json
+    """
+
     def __init__(
         self,
         url: str,
@@ -93,7 +73,8 @@ class Request:
         )
         resp = conn.getresponse()
         if resp.status // 100 != 2:
-            # FIXME(gaytomycode): raising an error here is temporary
+            # FIXME(gaytomycode): raising an error here is stupid ik this is a
+            # tmp class (azon?)
             raise ValueError(f'{resp.status} {resp.reason} {resp.read()}')
         return {
             'status': resp.status,

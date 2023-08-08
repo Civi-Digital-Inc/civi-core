@@ -8,10 +8,23 @@ from civi_core.config import settings
 settings.MEDIA_ROOT
 ```
 """
+import json
 import os
+import re
 from typing import List, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, Field, validator
+
+
+class LazyDecoder(json.JSONDecoder):
+    def decode(self, s, **kwargs):
+        regex_replacements = [
+            (re.compile(r'([^\\])\\([^\\])'), r'\1\\\\\2'),
+            (re.compile(r',(\s*])'), r'\1'),
+        ]
+        for regex, replacement in regex_replacements:
+            s = regex.sub(replacement, s)
+        return super().decode(s, **kwargs)
 
 
 class Settings(BaseSettings):
@@ -29,16 +42,17 @@ class Settings(BaseSettings):
     """Used by the identity micro-service to create JWTs"""
     ALGORITHM: str = 'HS256'
     """Used by the identity micro-service to create JWTs"""
-    # FIXME(gaytomycode): Setting a 999 days exp time to the token until i
-    # finalize the refresh token
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 999
     """Used by the identity micro-service to create JWTs"""
 
     API_V1_STR: str = '/v1'
     """Route prefix for version 1"""
 
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
-    """Allowed FrontEnd origins"""
+    BACKEND_CORS_ORIGINS: List = []
+    """Allowed cors origins. Can take str, list"""
+
+    BACKEND_CORS_ORIGIN_REGEX: str = ''
+    """Allowed cors origin regex"""
 
     BACKEND_URI: AnyHttpUrl = Field('http://localhost:8000')
     """Micro-service URI"""
@@ -55,12 +69,13 @@ class Settings(BaseSettings):
         if isinstance(v, str) and not v.startswith('['):
             return [i.strip() for i in v.split(',')]
         elif isinstance(v, (list, str)):
-            return v
+            return [i for i in v]
         raise ValueError(v)
 
     class Config:
         case_sensitive = True
         env_file = '.env'
+        json_loads = LazyDecoder().decode
         """
         Now is a local file but should be moved to AWS lambda env
         """
