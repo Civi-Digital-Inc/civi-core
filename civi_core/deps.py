@@ -12,6 +12,7 @@ def example(
     ...
 ```
 """
+from ast import literal_eval
 from typing import Generator, Optional
 
 from fastapi import Depends, HTTPException, status
@@ -22,6 +23,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
+from .choices import IdentityRole
 from .config import settings
 
 __engine = create_engine(settings.SQLALCHEMY_DATABASE_URI)
@@ -51,7 +53,7 @@ class TokenData(BaseModel):
 
     id: Optional[int] = None
     email: Optional[str] = None
-    role: Optional[List[str]] = None
+    role: Optional[IdentityRole] = None
     token: Optional[str] = None
 
 
@@ -77,10 +79,12 @@ async def get_current_identity(
         )
         identity_id: int = payload.get('id', '')
         email: str = payload.get('email', '')
-        role: List[str] = literal_eval(payload.get('role', '[]'))
+        role: IdentityRole = literal_eval(payload.get('role', '[]'))
         if identity_id is None or email is None:
             raise __credentials_exception
-        token_data = TokenData(id=identity_id, email=email, token=token, role=role)
+        token_data = TokenData(
+            id=identity_id, email=email, token=token, role=role
+        )
     except JWTError:
         raise __credentials_exception
     return token_data

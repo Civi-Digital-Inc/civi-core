@@ -4,8 +4,7 @@ Couple of helper functions.
 """
 import http.client
 import json
-import re
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 
 def ord(n: int) -> str:
@@ -25,9 +24,8 @@ def ord(n: int) -> str:
     )
 
 
-
-# FIXME(gaytomycode): A request handler that works, should improve it thou to our
-# needs
+# FIXME(gaytomycode): A request handler that works, should improve it thou to
+# our needs
 GET: str = 'GET'
 POST: str = 'POST'
 
@@ -36,9 +34,12 @@ STATUS_CODE: Dict[int, str] = {}
 
 class Request:
     """
-    temporary to make api requset, it should tie into aws tools when deployed to production
+    temporary to make api requset,
+    it should tie into aws tools when deployed to production
 
-    >>> request = Request(url='https://example.com', path='/v1/reservation/upcoming/', method='GET', headers={}, json={})
+    >>> request = Request(url='https://example.com',
+            path='/v1/reservation/upcoming/', method='GET', headers={},
+            json={})
     >>> request.set_auth_header('Bearer ...')
     >>> response = request.send()
     >>> response.status
