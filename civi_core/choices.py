@@ -9,6 +9,3 @@ class IdentityRole(enum.Enum):
 class EnvType(enum.Enum):
     PRODUCTION = 'PRODUCTION'
     LOCAL = 'LOCAL'
-
-
-print(type(IdentityRole.DEFAULT.value))
