@@ -13,7 +13,6 @@ def example(
 ```
 """
 import os
-from ast import literal_eval
 from typing import Generator, Optional
 
 from fastapi import Depends, HTTPException, status
@@ -100,7 +99,7 @@ async def get_current_identity(
         )
         identity_id: int = payload.get('id', '')
         email: str = payload.get('email', '')
-        role: IdentityRole = literal_eval(payload.get('role', '[]'))
+        role: IdentityRole = payload.get('role', '')
         if identity_id is None or email is None:
             raise __credentials_exception
         token_data = TokenData(
