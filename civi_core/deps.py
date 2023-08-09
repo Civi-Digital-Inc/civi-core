@@ -25,24 +25,29 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
-from .choices import IdentityRole
+from .choices import EnvType, IdentityRole
 from .config import settings
 
 connector = Connector()
 
 
-def getconn():
-    conn = connector.connect(
-        'charming-shield-389823:us-central1:civi',
-        'pg8000',
-        user='postgres',
-        password=os.getenv('PW'),
-        db=os.getenv('DB_NAME'),
+def __env_based_engine():
+    if settings.ENV == EnvType.LOCAL:
+        return create_engine(settings.SQLALCHEMY_DATABASE_URI)
+
+    return create_engine(
+        'postgresql+pg8000://',
+        creator=lambda: connector.connect(
+            'charming-shield-389823:us-central1:civi',
+            'pg8000',
+            user='postgres',
+            password=os.getenv('PW'),
+            db=os.getenv('DB_NAME'),
+        ),
     )
-    return conn
 
 
-__engine = create_engine('postgresql+pg8000://', creator=getconn)
+__engine = __env_based_engine()
 __SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=__engine)
 
 

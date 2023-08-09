@@ -15,6 +15,8 @@ from typing import List, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, Field, validator
 
+from .choices import EnvType
+
 
 class LazyDecoder(json.JSONDecoder):
     def decode(self, s, **kwargs):
@@ -31,6 +33,8 @@ class Settings(BaseSettings):
     """
     The settings used by micro-services
     """
+
+    ENV: EnvType = EnvType.PRODUCTION
 
     MEDIA_ROOT: str = os.path.join(os.getcwd(), 'media')
     """Path to file upload. Now is local but should be moved to AWS S3"""
