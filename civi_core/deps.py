@@ -99,12 +99,16 @@ async def get_current_identity(
         )
         identity_id: int = payload.get('id', '')
         email: str = payload.get('email', '')
-        role: IdentityRole = payload.get('role', '')
+        role: IdentityRole = IdentityRole(
+            payload.get('role', IdentityRole.DEFAULT.value)
+        )
         if identity_id is None or email is None:
             raise __credentials_exception
         token_data = TokenData(
             id=identity_id, email=email, token=token, role=role
         )
     except JWTError:
+        raise __credentials_exception
+    except ValueError:
         raise __credentials_exception
     return token_data
