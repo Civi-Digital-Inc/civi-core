@@ -97,6 +97,10 @@ async def get_current_identity(
             algorithms=[settings.ALGORITHM],
             options={'verify_aud': False},
         )
+
+        if payload.get('type', '') != 'access_token':
+            raise __credentials_exception
+
         identity_id: int = payload.get('id', '')
         email: str = payload.get('email', '')
         role: IdentityRole = IdentityRole(
