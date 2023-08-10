@@ -11,6 +11,7 @@ settings.MEDIA_ROOT
 import json
 import os
 import re
+from datetime import timedelta
 from typing import List, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, Field, validator
@@ -46,8 +47,11 @@ class Settings(BaseSettings):
     """Used by the identity micro-service to create JWTs"""
     ALGORITHM: str = 'HS256'
     """Used by the identity micro-service to create JWTs"""
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 999
+
+    ACCESS_TOKEN_EXPIRE_MINUTES: timedelta = timedelta(minutes=60)
     """Used by the identity micro-service to create JWTs"""
+
+    REFRESH_TOKEN_EXPIRE_MINUTES: timedelta = timedelta(days=30)
 
     API_V1_STR: str = '/v1'
     """Route prefix for version 1"""
