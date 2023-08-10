@@ -116,3 +116,36 @@ async def get_current_identity(
     except ValueError:
         raise __credentials_exception
     return token_data
+
+async def get_current_refresh_identity(
+    db: Session = Depends(get_db), token: str = Depends(__oauth2_scheme)
+) -> TokenData:
+    """
+    Returns the current logged in refresh token identity.
+    """
+    try:
+        payload = jwt.decode(
+            token,
+            settings.JWT_SECRET,
+            algorithms=[settings.ALGORITHM],
+            options={'verify_aud': False},
+        )
+
+        if payload.get('type', '') != 'refresh_token':
+            raise __credentials_exception
+
+        identity_id: int = payload.get('id', '')
+        email: str = payload.get('email', '')
+        role: IdentityRole = IdentityRole(
+            payload.get('role', IdentityRole.DEFAULT.value)
+        )
+        if identity_id is None or email is None:
+            raise __credentials_exception
+        token_data = TokenData(
+            id=identity_id, email=email, token=token, role=role
+        )
+    except JWTError:
+        raise __credentials_exception
+    except ValueError:
+        raise __credentials_exception
+    return token_data
