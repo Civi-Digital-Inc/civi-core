@@ -74,6 +74,7 @@ class TokenData(BaseModel):
     id: Optional[int] = None
     email: Optional[str] = None
     role: Optional[IdentityRole] = None
+    is_disabled: Optional[bool] = None
     token: Optional[str] = None
 
 
@@ -106,10 +107,12 @@ async def get_current_identity(
         role: IdentityRole = IdentityRole(
             payload.get('role', IdentityRole.DEFAULT.value)
         )
+        is_disabled: bool = payload.get('is_disabled', '')
         if identity_id is None or email is None:
             raise __credentials_exception
         token_data = TokenData(
-            id=identity_id, email=email, token=token, role=role
+            id=identity_id, email=email, token=token, role=role,
+            is_disabled=is_disabled,
         )
     except JWTError:
         raise __credentials_exception
